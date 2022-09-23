@@ -1,11 +1,12 @@
-var express = require("express"),
-  app = express(),
-  bodyParser = require("body-parser"),
-  methodOverride = require("method-override"),
-  mongoose = require("mongoose");
+const express = require("express")
+const bodyParser = require("body-parser")
+const methodOverride = require("method-override")
+const mongoose = require("mongoose")
+const app = express()
+const port = 3000
 
 // Connection to Mongo DB
-mongoose.connect("mongodb://localhost/tvshows", function(err, res){
+mongoose.connect("mongodb://localhost/tvshows", (err, res) => {
   if(err) throw err;
   console.log('Connected to DB')
 });
@@ -16,14 +17,14 @@ app.use(bodyParser.json());
 app.use(methodOverride());
 
 // Import controllers and models
-var models = require("./models/tvshow")(app, mongoose);
-var TVShowCtrl = require("./controllers/tvshows");
+const models = require("./models/tvshow")(app, mongoose);
+const TVShowCtrl = require("./controllers/tvshows");
 
 // Routes
-var router = express.Router();
+const router = express.Router();
 app.use(router);
 
-var tvshows = express.Router();
+const tvshows = express.Router();
 
 tvshows
   .route("/tvshows")
@@ -39,6 +40,6 @@ tvshows
 app.use("/api", tvshows);
 
 // Start server
-app.listen(3000, function() {
-  console.log("Node server running on http://localhost:3000");
+app.listen(port, () => {
+  console.log(`Node server running on http://localhost:${port}`);
 });
